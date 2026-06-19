@@ -1,0 +1,36 @@
+@if (presenter.hasOrder) {
+  <div class="card bg-base-200 shadow-md" [attr.data-testid]="orderTestId">
+    <div class="card-body p-4 gap-3">
+      <div class="flex items-start justify-between gap-4">
+        <div class="flex flex-col gap-1">
+          <div class="text-xs text-base-content/40 uppercase tracking-widest">Order</div>
+          <code class="text-sm font-semibold">{{ presenter.orderId }}</code>
+          <div class="flex items-center gap-1 text-xs text-base-content/50">
+            <span>User</span>
+            <code>{{ presenter.userId }}</code>
+          </div>
+        </div>
+        <button
+          class="btn btn-sm btn-error btn-outline shrink-0"
+          [attr.data-testid]="deleteOrderButtonTestId"
+          [disabled]="presenter.isDeleteOrderButtonDisabled"
+          (click)="controller.deleteOrderButtonClicked()"
+        >
+          Delete Order
+        </button>
+      </div>
+      <details class="group">
+        <summary
+          class="cursor-pointer select-none text-xs text-base-content/50 uppercase tracking-wider w-fit"
+        >
+          {{ presenter.summaryLabel }}
+        </summary>
+        <div class="mt-2 flex flex-col gap-1">
+          @for (itemId of presenter.itemIds; track itemId) {
+            <app-order-item [orderId]="presenter.orderId" [itemId]="itemId" />
+          }
+        </div>
+      </details>
+    </div>
+  </div>
+}
