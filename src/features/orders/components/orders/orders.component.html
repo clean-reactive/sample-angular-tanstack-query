@@ -4,11 +4,11 @@
     <div class="text-xs text-base-content/40 uppercase tracking-widest mb-2">Resource</div>
     <div class="flex items-center justify-between">
       <app-orders-resource-picker />
-      <div [class]="'badge gap-1 ' + (presenter.isProcessing ? 'badge-warning' : 'badge-success')">
-        @if (presenter.isProcessing) {
+      <div [class]="'badge gap-1 ' + (isProcessing ? 'badge-warning' : 'badge-success')">
+        @if (isProcessing) {
           <span class="loading loading-spinner loading-xs"></span>
         }
-        {{ presenter.statusLabel }}
+        {{ statusLabel }}
       </div>
     </div>
   </div>
@@ -17,7 +17,7 @@
     <app-orders-statistics />
   </div>
   <div class="flex flex-col gap-3">
-    @for (orderId of presenter.orderIds; track orderId) {
+    @for (orderId of orderIds; track orderId) {
       <app-order [orderId]="orderId" />
     }
   </div>

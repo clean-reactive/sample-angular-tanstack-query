@@ -10,6 +10,8 @@ import {
 import { ORDER_ITEM_CONTEXT, OrderItemContext } from './order-item.context';
 import { OrderItemController, orderItemControllerContext } from './order-item.controller';
 import { OrderItemPresenter, orderItemPresenterContext } from './order-item.presenter';
+import type { Controller, Presenter } from './order-item.types';
+import type { ItemEntityId } from '../../repository';
 
 @Component({
   selector: 'app-order-item',
@@ -31,9 +33,33 @@ import { OrderItemPresenter, orderItemPresenterContext } from './order-item.pres
   ],
   templateUrl: './order-item.component.html',
 })
-export class OrderItem {
-  protected readonly presenter = inject(OrderItemPresenter);
-  protected readonly controller = inject(OrderItemController);
+export class OrderItem implements Presenter, Controller {
+  private readonly presenter = inject(OrderItemPresenter);
+  private readonly controller = inject(OrderItemController);
   protected readonly orderItemTestId = orderItemTestId;
   protected readonly deleteItemButtonTestId = deleteItemButtonTestId;
+
+  get hasItem(): boolean {
+    return this.presenter.hasItem;
+  }
+
+  get itemId(): ItemEntityId {
+    return this.presenter.itemId;
+  }
+
+  get productId(): string {
+    return this.presenter.productId;
+  }
+
+  get productQuantity(): number {
+    return this.presenter.productQuantity;
+  }
+
+  get isDeleteItemButtonDisabled(): boolean {
+    return this.presenter.isDeleteItemButtonDisabled;
+  }
+
+  deleteOrderItemButtonClicked(): void {
+    this.controller.deleteOrderItemButtonClicked();
+  }
 }

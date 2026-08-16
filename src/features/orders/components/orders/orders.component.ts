@@ -4,6 +4,8 @@ import { Order } from '../order';
 import { OrdersResourcePicker } from '../orders-resource-picker';
 import { OrdersStatistics } from '../orders-statistics';
 import { OrdersPresenter } from './orders.presenter';
+import type { Presenter } from './orders.types';
+import type { OrderEntityId } from '../../repository';
 
 @Component({
   selector: 'app-orders',
@@ -12,7 +14,19 @@ import { OrdersPresenter } from './orders.presenter';
   providers: [OrdersPresenter],
   templateUrl: './orders.component.html',
 })
-export class Orders {
+export class Orders implements Presenter {
   protected readonly ordersTestId = ordersTestId;
-  protected readonly presenter = inject(OrdersPresenter);
+  private readonly presenter = inject(OrdersPresenter);
+
+  get orderIds(): OrderEntityId[] {
+    return this.presenter.orderIds;
+  }
+
+  get isProcessing(): boolean {
+    return this.presenter.isProcessing;
+  }
+
+  get statusLabel(): string {
+    return this.presenter.statusLabel;
+  }
 }
