@@ -1,12 +1,8 @@
 # Clean Reactive Architecture — Angular + TanStack Query Sample
 
-A sample application that demonstrates
-[Clean Reactive Architecture](https://github.com/clean-reactive/documentation/blob/main/docs/architecture.md) implemented with Angular and TanStack Query.
+A sample application that demonstrates [Clean Reactive Architecture](https://github.com/clean-reactive/documentation/blob/main/docs/architecture.md) implemented with Angular and TanStack Query.
 
-The sample shows a concrete, working mapping of every architectural unit from
-the diagram to idiomatic Angular code. It covers entities, gateway interfaces,
-repositories, use cases, selectors, presenters, controllers, and the user
-interface — with unit and integration tests for each layer.
+The sample shows a concrete, working mapping of every architectural unit from the diagram to idiomatic Angular code. It covers entities, gateway interfaces, repositories, use cases, selectors, presenters, controllers, and the user interface — with unit and integration tests for each layer.
 
 ## Getting started
 
@@ -34,8 +30,7 @@ npm start
 
 ## Architecture mapping
 
-The table below shows how each unit from the Clean Reactive Architecture diagram
-maps to this codebase.
+The table below shows how each unit from the Clean Reactive Architecture diagram maps to this codebase.
 
 | Architectural unit | Angular equivalent | Location |
 | --- | --- | --- |
@@ -52,35 +47,17 @@ maps to this codebase.
 
 ## Key design decisions
 
-**Application business entity as an Angular signal-based class.**
-`OrdersPresentationStore` holds application-level state (`ordersResource:
-"local" | "remote"`) that persists across use case calls and has its own rules.
-It is managed by a dedicated injectable class backed by Angular signals, not
-by TanStack Query.
+**Application business entity as an Angular signal-based class.** `OrdersPresentationStore` holds application-level state (`ordersResource: "local" | "remote"`) that persists across use case calls and has its own rules. It is managed by a dedicated injectable class backed by Angular signals, not by TanStack Query.
 
-**Repository as a TanStack Query injectable class.** The `OrdersRepository` is
-a composite of the gateway interface and the enterprise business entity. It
-exposes `OrdersGateway` behaviour through `injectQuery` / `injectMutation`
-calls and owns the entity cache that presenters and selectors read from.
+**Repository as a TanStack Query injectable class.** The `OrdersRepository` is a composite of the gateway interface and the enterprise business entity. It exposes `OrdersGateway` behaviour through `injectQuery` / `injectMutation` calls and owns the entity cache that presenters and selectors read from.
 
-**Gateway implementations resolved at runtime via Angular DI.**
-`I_ORDERS_GATEWAY` is an `InjectionToken` that is provided with either
-`InMemoryOrdersService` or `RemoteOrdersService` depending on the
-`ordersResource` value stored in the application business entity. The active
-implementation can change without any structural change to the architecture.
+**Gateway implementations resolved at runtime via Angular DI.** `I_ORDERS_GATEWAY` is an `InjectionToken` that is provided with either `InMemoryOrdersService` or `RemoteOrdersService` depending on the `ordersResource` value stored in the application business entity. The active implementation can change without any structural change to the architecture.
 
-**Injectable classes as architectural units.** Angular injectable classes are
-the natural host for use cases, selectors, presenters, and controllers. Each
-class has a single, clearly scoped responsibility that matches exactly one
-architectural unit.
+**Injectable classes as architectural units.** Angular injectable classes are the natural host for use cases, selectors, presenters, and controllers. Each class has a single, clearly scoped responsibility that matches exactly one architectural unit.
 
-**Signals for reactive state.** Selectors and presenters expose their results as
-Angular `Signal` / `computed` values, enabling fine-grained reactive updates
-without RxJS streams.
+**Signals for reactive state.** Selectors and presenters expose their results as Angular `Signal` / `computed` values, enabling fine-grained reactive updates without RxJS streams.
 
-**Dependency graph.** `dependency-cruiser` is configured to detect circular
-dependencies, orphan modules, and unresolvable imports. The `deps:graph` script
-generates a visual SVG of the module graph.
+**Dependency graph.** `dependency-cruiser` is configured to detect circular dependencies, orphan modules, and unresolvable imports. The `deps:graph` script generates a visual SVG of the module graph.
 
 ## UML diagram representing application architecture
 
