@@ -1,12 +1,22 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { OrdersPresentationStore } from '../../store';
 
+interface Presenter {
+  isLocalChecked: boolean;
+  isRemoteChecked: boolean;
+}
+
+interface Controller {
+  onLocalChanged(): void;
+  onRemoteChanged(): void;
+}
+
 @Component({
   selector: 'app-orders-resource-picker',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './orders-resource-picker.component.html',
 })
-export class OrdersResourcePicker {
+export class OrdersResourcePicker implements Presenter, Controller {
   private readonly presentationStore = inject(OrdersPresentationStore);
 
   // presenter

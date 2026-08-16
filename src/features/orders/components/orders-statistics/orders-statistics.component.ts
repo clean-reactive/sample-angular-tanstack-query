@@ -3,12 +3,19 @@ import { OrdersSelector, TotalItemsQuantitySelector } from '../../selectors';
 import { totalItemQuantityTestId } from '../../test-ids';
 import type { OrderEntity } from '../../repository';
 
+interface Presenter {
+  uniqueUsersCount: number;
+  ordersCount: number;
+  itemLinesCount: number;
+  totalItemsQuantity: number;
+}
+
 @Component({
   selector: 'app-orders-statistics',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './orders-statistics.component.html',
 })
-export class OrdersStatistics {
+export class OrdersStatistics implements Presenter {
   private readonly ordersSelector = inject(OrdersSelector);
   private readonly totalItemsQuantitySelector = inject(TotalItemsQuantitySelector);
 
